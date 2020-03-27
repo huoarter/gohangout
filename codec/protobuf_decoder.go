@@ -2,22 +2,11 @@ package codec
 
 import (
     "time"
-    "reflect"
     "github.com/huoarter/gohangout/protoLogEvent"
-    "github.com/golang/protobuf/proto"
+    proto "github.com/gogo/protobuf/proto"
 )
 
 type ProtobufDecoder struct {
-}
-func StructToMap(obj interface{}) map[string]interface{}{
-        obj1 := reflect.TypeOf(obj)
-        obj2 := reflect.ValueOf(obj)
-
-        var data = make(map[string]interface{})
-        for i := 0; i < obj1.NumField(); i++ {
-                data[obj1.Field(i).Name] = obj2.Field(i).Interface()
-        }
-        return data
 }
 
 func (pd *ProtobufDecoder) Decode(value []byte) map[string]interface{} {
@@ -31,11 +20,21 @@ func (pd *ProtobufDecoder) Decode(value []byte) map[string]interface{} {
     		"message":    string(value),
     	}
     }
-    data := StructToMap(*ple)
-    for k,v := range data {
-        if _,ok := data[k]; ok {
-            rst[k] = v 
-        }
-    }
+    rst["loggerFqcn"] = ple.LoggerFqcn
+    rst["marker"] = ple.Marker
+    rst["level"] = ple.Level
+    rst["loggerName"] = ple.LoggerName
+    rst["message"] = ple.Message
+    rst["timeMillis"] = ple.TimeMillis
+    rst["thrown"] = ple.Thrown
+    rst["thrownProxy"] = ple.ThrownProxy
+    rst["contextMap"] = ple.ContextMap
+    rst["contextStack"] = ple.ContextStack
+    rst["threadName"] = ple.ThreadName
+    rst["source"] = ple.Source
+    rst["includeLocation"] = ple.IncludeLocation
+    rst["endOfBatch"] = ple.EndOfBatch
+    rst["containerMeta"] = ple.ContainerMeta
+    rst["nanoTime"] = ple.NanoTime
     return rst
 }
