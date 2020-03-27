@@ -21,21 +21,21 @@ func StructToMap(obj interface{}) map[string]interface{}{
 }
 
 func (pd *ProtobufDecoder) Decode(value []byte) map[string]interface{} {
-	rst := make(map[string]interface{})
-	rst["@timestamp"] = time.Now()
+    rst := make(map[string]interface{})
+    rst["@timestamp"] = time.Now()
     ple := &protoLogEvent.ProtoLogEvent{}
     err := proto.Unmarshal(value, ple)
     data := StructToMap(*ple)
-	if err != nil {
-		return map[string]interface{}{
-			"@timestamp": time.Now(),
-			"message":    string(value),
-		}
-	}
+    if err != nil {
+    	return map[string]interface{}{
+    		"@timestamp": time.Now(),
+    		"message":    string(value),
+    	}
+    }
     for k,v := range data {
         if _,ok := data[k]; ok {
             rst[k] = v 
         }
     }
-	return rst
+    return rst
 }
