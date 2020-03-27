@@ -1,7 +1,7 @@
 package codec
 
 import (
-	"time"
+    "time"
     "reflect"
     "github.com/huoarter/gohangout/protoLogEvent"
     "github.com/golang/protobuf/proto"
@@ -25,13 +25,13 @@ func (pd *ProtobufDecoder) Decode(value []byte) map[string]interface{} {
     rst["@timestamp"] = time.Now()
     ple := &protoLogEvent.ProtoLogEvent{}
     err := proto.Unmarshal(value, ple)
-    data := StructToMap(*ple)
     if err != nil {
     	return map[string]interface{}{
     		"@timestamp": time.Now(),
     		"message":    string(value),
     	}
     }
+    data := StructToMap(*ple)
     for k,v := range data {
         if _,ok := data[k]; ok {
             rst[k] = v 

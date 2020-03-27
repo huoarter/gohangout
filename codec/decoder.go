@@ -16,6 +16,8 @@ func NewDecoder(t string) Decoder {
 		return &PlainDecoder{}
 	case "json":
 		return &JsonDecoder{useNumber: true}
+	case "protobuf":
+		return &ProtobufDecoder{}
 	case "json:not_usenumber":
 		return &JsonDecoder{useNumber: false}
 	default:
